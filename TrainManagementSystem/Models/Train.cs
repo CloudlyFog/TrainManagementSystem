@@ -7,7 +7,7 @@ public class Train
     public int CarriageCount { get; set; }
     public bool Arrived { get; set; }
     public TrainModel TrainModel { get; set; }
-    public List<TrainUser>? Passengers { get; set; } = new();
+    public List<Ticket>? Passengers { get; set; } = new();
 }
 
 public enum TrainModel
