@@ -1,5 +1,8 @@
-﻿namespace TrainManagementSystem.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
+namespace TrainManagementSystem.Models;
+
+[Table("Tickets")]
 public class Ticket
 {
     public Guid? Id { get; set; } = Guid.NewGuid();
