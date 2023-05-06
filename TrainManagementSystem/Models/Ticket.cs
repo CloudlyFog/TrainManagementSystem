@@ -5,6 +5,11 @@ namespace TrainManagementSystem.Models;
 [Table("Tickets")]
 public class Ticket
 {
+    public static readonly Ticket Default = new()
+    {
+        Id = Guid.Empty,
+        Price = -1,
+    };
     public Guid? Id { get; set; } = Guid.NewGuid();
     public decimal Price { get; set; }
     public TicketDateTime? TicketDateTime { get; set; }
