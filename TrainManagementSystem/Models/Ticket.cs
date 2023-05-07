@@ -20,6 +20,17 @@ public class Ticket
 
     public Guid? UserId { get; set; }
     public TrainUser? User { get; set; }
+
+    public static Ticket SetTicket(Ticket ticket, Train train, TrainUser user)
+    {
+        ticket.Train = train;
+        ticket.TrainId = train.Id;
+
+        ticket.User = user;
+        ticket.UserId = user.ID;
+
+        return ticket;
+    }
 }
 
 [NotMapped]

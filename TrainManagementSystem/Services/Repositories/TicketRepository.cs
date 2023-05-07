@@ -25,12 +25,25 @@ public class TicketRepository : OptionsUpdater<TrainUser, Card, BankAccount, Ban
 
     public ExceptionModel Create(Ticket item)
     {
-        throw new NotImplementedException();
+        if (item?.User is null && item?.Train is null)
+            return ExceptionModel.EntityIsNull;
+
+        if (Exist(x => x.Id == item.Id))
+            return ExceptionModel.OperationRestricted;
+
+        UpdateTracker(item, EntityState.Added);
+        _trainContext.SaveChanges();
+        return ExceptionModel.Ok;
     }
 
     public ExceptionModel Delete(Ticket item)
     {
-        throw new NotImplementedException();
+        if (!FitsConditions(item))
+            return ExceptionModel.EntityNotExist;
+
+        UpdateTracker(item, EntityState.Deleted);
+        _trainContext.SaveChanges();
+        return ExceptionModel.Ok;
     }
 
     public void Dispose()
@@ -59,7 +72,20 @@ public class TicketRepository : OptionsUpdater<TrainUser, Card, BankAccount, Ban
 
     public ExceptionModel Update(Ticket item)
     {
-        throw new NotImplementedException();
+        if (!FitsConditions(item))
+            return ExceptionModel.EntityNotExist;
+
+        UpdateTracker(item, EntityState.Modified);
+        _trainContext.SaveChanges();
+        return ExceptionModel.Ok;
+    }
+
+    private void UpdateTracker(Ticket item, EntityState state)
+    {
+        _trainContext.UpdateTracker(item, state, delegate
+        {
+            _trainContext.AvoidChanges(new object[] { item.Train, item.User });
+        }, _trainContext);
     }
 
     protected override void UpdateOptions(ConfigurationOptions options)
