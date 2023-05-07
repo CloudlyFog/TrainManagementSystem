@@ -20,5 +20,7 @@ public class Train
 
 public enum TrainModel
 {
-
+    Intercity,
+    Interregional,
+    International,
 }

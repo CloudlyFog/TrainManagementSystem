@@ -22,6 +22,7 @@ public class Ticket
     public TrainUser? User { get; set; }
 }
 
+[NotMapped]
 public class TicketDateTime
 {
     public Guid? Id { get; set; } = Guid.NewGuid();
@@ -29,6 +30,7 @@ public class TicketDateTime
     public DateTime? ArrivalDate { get; set; }
 }
 
+[NotMapped]
 public class TicketAddress
 {
     public Guid? Id { get; set; } = Guid.NewGuid();
