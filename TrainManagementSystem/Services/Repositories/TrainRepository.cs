@@ -3,9 +3,11 @@ using BankSystem7.Services.Configuration;
 using BankSystem7.Services.Interfaces;
 using Microsoft.AspNetCore.DataProtection.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using System.Linq.Expressions;
 using TrainManagementSystem.Data;
 using TrainManagementSystem.Models;
+using ZstdSharp.Unsafe;
 
 namespace TrainManagementSystem.Services.Repositories;
 
@@ -25,12 +27,22 @@ public class TrainRepository : OptionsUpdater<TrainUser, Card, BankAccount, Bank
 
     public ExceptionModel Create(Train item)
     {
-        throw new NotImplementedException();
+        if (item is null || Exist(x => x.Id == item.Id))
+            return ExceptionModel.OperationFailed;
+
+        UpdateTracker(item, EntityState.Added);
+        _trainContext.SaveChanges();
+        return ExceptionModel.Ok;
     }
 
     public ExceptionModel Delete(Train item)
     {
-        throw new NotImplementedException();
+        if (!FitsConditions(item))
+            return ExceptionModel.EntityNotExist;
+
+        UpdateTracker(item, EntityState.Deleted);
+        _trainContext.SaveChanges();
+        return ExceptionModel.Ok;
     }
 
     public void Dispose()
@@ -59,7 +71,20 @@ public class TrainRepository : OptionsUpdater<TrainUser, Card, BankAccount, Bank
 
     public ExceptionModel Update(Train item)
     {
-        throw new NotImplementedException();
+        if (!FitsConditions(item))
+            return ExceptionModel.EntityNotExist;
+
+        UpdateTracker(item, EntityState.Modified); 
+        _trainContext.SaveChanges();
+        return ExceptionModel.Ok;
+    }
+
+    private void UpdateTracker(Train item, EntityState state)
+    {
+        _trainContext.UpdateTracker(item, state, delegate
+        {
+            item.Passengers = null;
+        }, _trainContext);
     }
 
     protected override void UpdateOptions(ConfigurationOptions options)
