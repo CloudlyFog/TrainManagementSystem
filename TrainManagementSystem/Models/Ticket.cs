@@ -5,6 +5,11 @@ namespace TrainManagementSystem.Models;
 [Table("Tickets")]
 public class Ticket
 {
+    public static readonly Ticket Default = new()
+    {
+        Id = Guid.Empty,
+        Price = -1,
+    };
     public Guid? Id { get; set; } = Guid.NewGuid();
     public decimal Price { get; set; }
     public TicketDateTime? TicketDateTime { get; set; }
@@ -15,8 +20,20 @@ public class Ticket
 
     public Guid? UserId { get; set; }
     public TrainUser? User { get; set; }
+
+    public static Ticket SetTicket(Ticket ticket, Train train, TrainUser user)
+    {
+        ticket.Train = train;
+        ticket.TrainId = train.Id;
+
+        ticket.User = user;
+        ticket.UserId = user.ID;
+
+        return ticket;
+    }
 }
 
+[NotMapped]
 public class TicketDateTime
 {
     public Guid? Id { get; set; } = Guid.NewGuid();
@@ -24,6 +41,7 @@ public class TicketDateTime
     public DateTime? ArrivalDate { get; set; }
 }
 
+[NotMapped]
 public class TicketAddress
 {
     public Guid? Id { get; set; } = Guid.NewGuid();

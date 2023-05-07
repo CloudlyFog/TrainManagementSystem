@@ -29,5 +29,16 @@ public class TrainManagementModelConfiguration : ModelConfiguration
             .HasMany(train => train.Passengers)
             .WithOne(ticket => ticket.Train)
             .HasForeignKey(ticket => ticket.TrainId);
+
+
+        //modelBuilder.Entity<Ticket>()
+        //    .HasOne(ticket => ticket.TicketDateTime)
+        //    .WithOne(ticketdt => ticketdt.Ticket)
+        //    .HasForeignKey<TicketDateTime>(ticketdt => ticketdt.TicketId);
+
+        //modelBuilder.Entity<Ticket>()
+        //    .HasOne(ticket => ticket.TicketAddress)
+        //    .WithOne(ticketdt => ticketdt.Ticket)
+        //    .HasForeignKey<TicketDateTime>(ticketdt => ticketdt.TicketId);
     }
 }

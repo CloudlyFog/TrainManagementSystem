@@ -5,6 +5,8 @@ VisualStudioVersion = 17.6.33626.354
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainManagementSystem", "TrainManagementSystem\TrainManagementSystem.csproj", "{44615D07-57AB-4C69-B716-67D42404EBCA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainManagementSystemTest", "TrainManagementSystemTest\TrainManagementSystemTest.csproj", "{C640981B-B1E8-43E7-AC43-1C68979D1A09}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{44615D07-57AB-4C69-B716-67D42404EBCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44615D07-57AB-4C69-B716-67D42404EBCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44615D07-57AB-4C69-B716-67D42404EBCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C640981B-B1E8-43E7-AC43-1C68979D1A09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C640981B-B1E8-43E7-AC43-1C68979D1A09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C640981B-B1E8-43E7-AC43-1C68979D1A09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C640981B-B1E8-43E7-AC43-1C68979D1A09}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
