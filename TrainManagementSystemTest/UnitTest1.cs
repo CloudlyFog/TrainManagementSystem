@@ -1,6 +1,7 @@
 using BankSystem7.Models;
 using BankSystem7.Services.Configuration;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using TrainManagementSystem.Data;
 using TrainManagementSystem.Models;
 using TrainManagementSystem.Services.Configuration;
@@ -23,9 +24,21 @@ public class Tests
     }
 
     [Test]
+    public void SetupDatabase()
+    {
+        var ticket = GetTicket();
+        var train = GetDefaultTrain();
+
+        _serviceConfiguration.UserRepository.Create(GetUser());
+        _trainRepository.Create(train);
+        _ticketRepository.Create(ticket);
+
+        Assert.Pass();
+    }
+
+    [Test]
     public void TestTrainRepository()
     {
-
         var train = GetDefaultTrain();
         _trainRepository.Create(train);
         var getTrain = _trainRepository.Get(x => x.Id == train.Id);
