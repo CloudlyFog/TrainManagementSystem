@@ -1,10 +1,10 @@
 ﻿using BankSystem7.Extensions;
 using BankSystem7.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Mysqlx.Crud;
 using TrainManagementSystem.Extensions;
 using TrainManagementSystem.Models;
+using BankSystem7.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace TrainManagementSystem.Controllers;
 
@@ -31,22 +31,33 @@ public class TrainController : ControllerBase
     }
 
     [HttpPost]
-    public void Create(Train train)
+    public IActionResult Create(Train train)
     {
-        _trainRepository.Create(train);
+        return HandleResults(_trainRepository.Create(train));
     }
 
-    [HttpPut]
-    public void Update(Guid id, Train train)
+    [HttpPut("{id}")]
+    public IActionResult Update(Guid id, Train train)
     {
         var updOrder = _trainRepository.Get(x => x.Id == id);
-        _trainRepository.Update(train.SetValuesTo(updOrder));
+        return HandleResults(_trainRepository.Update(train.SetValuesTo(updOrder)));
     }
 
-    [HttpDelete]
-    public void Delete(Guid id)
+    [HttpDelete("{id}")]
+    public IActionResult Delete(Guid id)
     {
         var train = _trainRepository.Get(x => x.Id == id);
-        _trainRepository.Delete(train);
+        return HandleResults(_trainRepository.Delete(train));
+    }
+
+    private IActionResult HandleResults(ExceptionModel result)
+    {
+        return result switch
+        {
+            ExceptionModel.Ok or ExceptionModel.Successfully => Ok(),
+            ExceptionModel.Restricted => Forbid(),
+            ExceptionModel.EntityIsNull or ExceptionModel.EntityNotExist => NotFound(),
+            _ => BadRequest()
+        };
     }
 }
